@@ -1,0 +1,41 @@
+# Python 虚拟环境（最重要！）
+yolo26_env/
+env/
+venv/
+.venv/
+
+# Python 缓存文件
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 模型权重文件（大文件）
+*.pt
+*.onnx
+*.engine
+
+# 视频和图片数据（大文件）
+*.mp4
+*.avi
+*.mov
+*.jpg
+*.jpeg
+*.png
+*.gif
+data/
+output/
+
+# 配置文件（如果包含敏感信息）
+config/lane_rules.json
+
+# IDE 配置
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 日志文件
+*.log
+*.tmp
+.DS_Store

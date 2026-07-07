@@ -1,0 +1,25 @@
+system:
+  name: Smart Traffic System
+  version: 3.0.0
+
+model:
+  yolo_path: best.pt
+  confidence: 0.4
+
+tracking:
+  max_age: 30
+  n_init: 3
+  max_cosine_distance: 0.3
+
+violation:
+  angle_threshold: 90
+  min_trajectory_length: 5
+  ticket_ttl: 30
+
+event:
+  ttl: 5
+  rate_limit: 1
+
+stream:
+  reconnect_interval: 2
+  fps_sleep: 0.03

@@ -1,0 +1,125 @@
+{
+  "cameras": {
+    "CAM_01": {
+      "id": "CAM_01",
+      "intersection_id": "INT_001",
+      "name": "路口1-北向摄像头",
+      "description": "从北向南拍摄，覆盖左侧和右侧车道",
+      "lanes": [
+        {
+          "id": "left_lane",
+          "direction": "S->N",
+          "angle": -90,
+          "description": "左侧车道（从下往上）"
+        },
+        {
+          "id": "right_lane",
+          "direction": "N->S",
+          "angle": 90,
+          "description": "右侧车道（从上往下）"
+        }
+      ],
+      "default_angle": 90,
+      "confidence_threshold": 0.6
+    },
+    
+    "CAM_02": {
+      "id": "CAM_02",
+      "intersection_id": "INT_001",
+      "name": "路口1-南向摄像头",
+      "description": "从南向北拍摄，视角与CAM_01相反",
+      "lanes": [
+        {
+          "id": "left_lane",
+          "direction": "N->S",
+          "angle": 90,
+          "description": "左侧车道（从上往下）"
+        },
+        {
+          "id": "right_lane",
+          "direction": "S->N",
+          "angle": -90,
+          "description": "右侧车道（从下往上）"
+        }
+      ],
+      "default_angle": -90,
+      "confidence_threshold": 0.6
+    },
+    
+    "CAM_03": {
+      "id": "CAM_03",
+      "intersection_id": "INT_002",
+      "name": "分叉路口摄像头",
+      "description": "覆盖分叉路口，包含分叉车道",
+      "lanes": [
+        {
+          "id": "main_lane",
+          "direction": "N->S",
+          "angle": 90,
+          "description": "主路直行车道"
+        },
+        {
+          "id": "branch_lane",
+          "direction": "N->W",
+          "angle": 45,
+          "description": "分叉车道（向北向西转弯）"
+        },
+        {
+          "id": "branch_lane_2",
+          "direction": "N->E",
+          "angle": 135,
+          "description": "分叉车道（向北向东转弯）"
+        }
+      ],
+      "default_angle": 90,
+      "confidence_threshold": 0.5
+    },
+    
+    "CAM_04": {
+      "id": "CAM_04",
+      "intersection_id": "INT_003",
+      "name": "T型路口摄像头",
+      "description": "T型路口，包含多方向车道",
+      "lanes": [
+        {
+          "id": "lane_north_south",
+          "direction": "N->S",
+          "angle": 90,
+          "description": "北向南主路"
+        },
+        {
+          "id": "lane_south_north",
+          "direction": "S->N",
+          "angle": -90,
+          "description": "南向北主路"
+        },
+        {
+          "id": "lane_west_east",
+          "direction": "W->E",
+          "angle": 0,
+          "description": "西向东支路"
+        }
+      ],
+      "default_angle": 90,
+      "confidence_threshold": 0.6
+    }
+  },
+  
+  "intersections": {
+    "INT_001": {
+      "name": "标准路口",
+      "description": "双向四车道，中间有隔离带",
+      "cameras": ["CAM_01", "CAM_02"]
+    },
+    "INT_002": {
+      "name": "分叉路口",
+      "description": "主路分出两条支路",
+      "cameras": ["CAM_03"]
+    },
+    "INT_003": {
+      "name": "T型路口",
+      "description": "T型交叉口",
+      "cameras": ["CAM_04"]
+    }
+  }
+}
