@@ -45,85 +45,42 @@
 
 ## 📁 项目结构
 
-Going against the flow/
+going-against-the-flow/
 │
-├── README.md # 项目说明文档
-├── requirements.txt # 依赖包列表
-├── run_api.py # API 服务启动入口
-├── test_ticket.py # 工单模块单元测试
+├── 🚀 启动与配置
+│ ├── run_api.py # API 服务入口
+│ ├── requirements.txt # Python 依赖
+│ ├── docker-compose.yml # 容器编排
+│ └── config/ # 配置文件
+│ ├── lane_rules.json # 车道方向规则（7种路口）
+│ └── camera_lane_map.json # 摄像头-车道映射
 │
-├── config/ # 配置文件目录
-│ ├── lane_rules.json # 车道方向规则
-│ └── camera_lane_map.json # 摄像头车道映射
+├── 🧠 核心算法引擎（src/）
+│ ├── detection/ # YOLO11 车辆检测
+│ ├── tracking/ # DeepSORT 多目标跟踪
+│ ├── violation/ # 逆行检测（增强版）
+│ ├── ocr/ # 车牌识别（PaddleOCR）
+│ ├── ticket/ # 工单生成与管理
+│ └── pipeline/ # 检测→跟踪→逆行→工单 全流程
 │
-├── data/ # 数据目录
-│ ├── raw/ # 原始数据 (DETRAC, 合成车牌)
-│ │ ├── DETRAC-train-data/ # DETRAC 训练集
-│ │ ├── DETRAC-Train-Annotations-XML/ # DETRAC 标注
-│ │ └── synthetic_plates/ # 合成车牌数据
-│ ├── database/ # SQLite 数据库
-│ │ └── violation.db # 工单数据库
-│ └── checkpoints/ # 模型权重文件
-│ └── yolo11n.pt # YOLO11 模型权重
+├── 🌐 API 服务层（src/api/）
+│ ├── main.py # FastAPI 主入口
+│ ├── routes/ # 路由（detect / tickets / statistics）
+│ ├── schemas/ # Pydantic 数据模型
+│ └── stream/ # WebSocket 实时推送
 │
-├── src/ # 源代码目录
-│ ├── detection/ # 🚗 YOLO11 车辆检测模块
-│ │ ├── detector.py # 检测器封装
-│ │ └── model_factory.py # 模型工厂
-│ │
-│ ├── tracking/ # 🎯 DeepSORT 目标跟踪模块
-│ │ ├── tracker.py # 跟踪器封装
-│ │ └── trajectory.py # 轨迹管理
-│ │
-│ ├── violation/ # 🚨 逆行检测模块
-│ │ ├── direction_checker.py # 方向计算器
-│ │ ├── violation_detector.py # 基础检测器
-│ │ ├── enhanced_detector.py # 增强版检测器
-│ │ ├── lane_matcher.py # 车道匹配器
-│ │ └── special_vehicle_filter.py # 特殊车辆豁免
-│ │
-│ ├── ocr/ # 📋 车牌识别模块
-│ │ └── license_ocr.py # PaddleOCR 封装 (支持模拟模式)
-│ │
-│ ├── ticket/ # 📄 工单管理模块
-│ │ ├── models.py # 数据模型 (Enum, Dataclass)
-│ │ ├── database.py # SQLite 数据库操作
-│ │ ├── ticket_generator.py # 工单生成器
-│ │ └── ticket_manager.py # 工单管理器 (统一接口)
-│ │
-│ ├── pipeline/ # 🔗 完整流水线模块
-│ │ ├── video_pipeline.py # 视频处理流水线
-│ │ └── frame_processor.py # 单帧处理器
-│ │
-│ ├── api/ # 🔌 API 服务模块
-│ │ ├── main.py # FastAPI 主入口
-│ │ ├── dependencies.py # 依赖注入
-│ │ ├── routes/ # 路由
-│ │ │ ├── detect.py # 检测接口
-│ │ │ ├── tickets.py # 工单接口
-│ │ │ └── statistics.py # 统计接口
-│ │ └── schemas/ # 数据模型
-│ │ └── models.py # Pydantic 模型
-│ │
-│ └── utils/ # 工具函数
-│ ├── logger.py # 日志工具
-│ └── visualization.py # 可视化工具
+├── 🛠️ 辅助工具
+│ ├── scripts/ # 运行脚本（流水线、测试集评估）
+│ ├── tests/ # 单元测试
+│ └── utils/ # 日志、可视化工具
 │
-├── scripts/ # 运行脚本
-│ ├── run_pipeline.py # 运行完整流水线
-│ ├── run_violation_detection.py # 逆行检测可视化
-│ ├── test_on_testset.py # 测试集评估
-│ └── generate_plates.py # 合成车牌生成器
+├── 📁 数据与输出（被 .gitignore 排除）
+│ ├── data/ # 原始图片/视频
+│ ├── checkpoints/ # 模型权重（*.pt）
+│ └── output/ # 运行结果（标注图、报告）
 │
-├── tests/ # 测试目录
-│ ├── test_ticket.py # 工单模块测试
-│ └── test_violation.py # 逆行检测测试
-│
-└── output/ # 输出目录
-├── pipeline_results/ # 流水线标注结果
-├── violation_demo/ # 逆行检测演示
-├── snapshots/ # 违规截图
-└── reports/ # 导出报告
+└── 📄 文档
+└── README.md # 项目说明
 
 
 ---
