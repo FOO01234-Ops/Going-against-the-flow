@@ -41,46 +41,49 @@
 | **图像处理** | OpenCV | 4.5+ | 视频帧处理与可视化 |
 | **配置管理** | JSON / YAML | - | 灵活配置车道规则 |
 
-
+git status
 
 ## 📁 项目结构
 
+## 📂 项目结构
+
+```text
 going-against-the-flow/
 │
 ├── 🚀 启动与配置
-│ ├── run_api.py # API 服务入口
-│ ├── requirements.txt # Python 依赖
-│ ├── docker-compose.yml # 容器编排
-│ └── config/ # 配置文件
-│ ├── lane_rules.json # 车道方向规则（7种路口）
-│ └── camera_lane_map.json # 摄像头-车道映射
+│   ├── run_api.py                # API 服务入口
+│   ├── requirements.txt          # Python 依赖
+│   ├── docker-compose.yml        # 容器编排
+│   └── config/                   # 配置文件
+│       ├── lane_rules.json       # 车道方向规则（7种路口）
+│       └── camera_lane_map.json  # 摄像头-车道映射
 │
 ├── 🧠 核心算法引擎（src/）
-│ ├── detection/ # YOLO11 车辆检测
-│ ├── tracking/ # DeepSORT 多目标跟踪
-│ ├── violation/ # 逆行检测（增强版）
-│ ├── ocr/ # 车牌识别（PaddleOCR）
-│ ├── ticket/ # 工单生成与管理
-│ └── pipeline/ # 检测→跟踪→逆行→工单 全流程
+│   ├── detection/                # YOLO11 车辆检测
+│   ├── tracking/                 # DeepSORT 多目标跟踪
+│   ├── violation/                # 逆行检测（增强版）
+│   ├── ocr/                      # 车牌识别（PaddleOCR）
+│   ├── ticket/                   # 工单生成与管理
+│   └── pipeline/                 # 检测→跟踪→逆行→工单 全流程
 │
 ├── 🌐 API 服务层（src/api/）
-│ ├── main.py # FastAPI 主入口
-│ ├── routes/ # 路由（detect / tickets / statistics）
-│ ├── schemas/ # Pydantic 数据模型
-│ └── stream/ # WebSocket 实时推送
+│   ├── main.py                   # FastAPI 主入口
+│   ├── routes/                   # 路由（detect / tickets / statistics）
+│   ├── schemas/                  # Pydantic 数据模型
+│   └── stream/                   # WebSocket 实时推送
 │
 ├── 🛠️ 辅助工具
-│ ├── scripts/ # 运行脚本（流水线、测试集评估）
-│ ├── tests/ # 单元测试
-│ └── utils/ # 日志、可视化工具
+│   ├── scripts/                  # 运行脚本（流水线、测试集评估）
+│   ├── tests/                    # 单元测试
+│   └── utils/                    # 日志、可视化工具
 │
 ├── 📁 数据与输出（被 .gitignore 排除）
-│ ├── data/ # 原始图片/视频
-│ ├── checkpoints/ # 模型权重（*.pt）
-│ └── output/ # 运行结果（标注图、报告）
+│   ├── data/                     # 原始图片/视频
+│   ├── checkpoints/              # 模型权重（*.pt）
+│   └── output/                   # 运行结果（标注图、报告）
 │
 └── 📄 文档
-└── README.md # 项目说明
+    └── README.md                 # 项目说明
 
 
 ---
