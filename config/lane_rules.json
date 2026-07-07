@@ -1,0 +1,161 @@
+{
+  "intersections": {
+    "INT_001": {
+      "name": "标准十字路口",
+      "description": "典型城市十字路口，双向四车道",
+      "lanes": [
+        {
+          "id": "lane_1",
+          "direction": "N->S",
+          "angle": 90,
+          "description": "北向南车道（右侧车道，靠右行驶）"
+        },
+        {
+          "id": "lane_2",
+          "direction": "S->N",
+          "angle": -90,
+          "description": "南向北车道（左侧车道，靠左行驶）"
+        },
+        {
+          "id": "lane_3",
+          "direction": "W->E",
+          "angle": 0,
+          "description": "西向东车道"
+        },
+        {
+          "id": "lane_4",
+          "direction": "E->W",
+          "angle": 180,
+          "description": "东向西车道"
+        }
+      ],
+      "default_angle": 90
+    },
+
+    "INT_002": {
+      "name": "高速公路出口",
+      "description": "高速公路出口匝道，单行道",
+      "lanes": [
+        {
+          "id": "lane_1",
+          "direction": "N->S",
+          "angle": 90,
+          "description": "北向南出口匝道"
+        }
+      ],
+      "default_angle": 90
+    },
+
+    "INT_003": {
+      "name": "环岛路口",
+      "description": "环形路口，逆时针行驶",
+      "lanes": [
+        {
+          "id": "lane_1",
+          "direction": "逆时针",
+          "angle": 45,
+          "description": "环岛逆时针方向（进入环岛后）"
+        }
+      ],
+      "default_angle": 45
+    },
+
+    "INT_004": {
+      "name": "T型路口",
+      "description": "T型路口，南北方向为主",
+      "lanes": [
+        {
+          "id": "lane_1",
+          "direction": "N->S",
+          "angle": 90,
+          "description": "北向南主路"
+        },
+        {
+          "id": "lane_2",
+          "direction": "S->N",
+          "angle": -90,
+          "description": "南向北主路"
+        },
+        {
+          "id": "lane_3",
+          "direction": "W->E",
+          "angle": 0,
+          "description": "西向东支路"
+        }
+      ],
+      "default_angle": 90
+    },
+
+    "INT_005": {
+      "name": "单行道",
+      "description": "单行道，只允许一个方向通行",
+      "lanes": [
+        {
+          "id": "lane_1",
+          "direction": "N->S",
+          "angle": 90,
+          "description": "北向南单行道"
+        }
+      ],
+      "default_angle": 90
+    },
+
+    "INT_DETRAC": {
+      "name": "DETRAC数据集路口",
+      "description": "DETRAC公开数据集默认配置，双向车道，中间有隔离带",
+      "lanes": [
+        {
+          "id": "left_lane",
+          "direction": "S->N",
+          "angle": -90,
+          "description": "左侧车道（靠左行驶，从下往上）"
+        },
+        {
+          "id": "right_lane",
+          "direction": "N->S",
+          "angle": 90,
+          "description": "右侧车道（靠右行驶，从上往下）"
+        }
+      ],
+      "default_angle": 90
+    },
+
+    "INT_CUSTOM": {
+      "name": "自定义路口",
+      "description": "用户自定义路口配置，请根据实际情况修改",
+      "lanes": [
+        {
+          "id": "lane_1",
+          "direction": "自定义1",
+          "angle": 90,
+          "description": "自定义车道1"
+        },
+        {
+          "id": "lane_2",
+          "direction": "自定义2",
+          "angle": -90,
+          "description": "自定义车道2"
+        }
+      ],
+      "default_angle": 90
+    }
+  },
+
+  "default_lane_angle": 90,
+
+  "angle_reference": {
+    "description": "角度参考系说明",
+    "coordinate_system": "图像坐标：x轴向右，y轴向下",
+    "angles": {
+      "0": "W->E (自西向东)",
+      "45": "NW->SE (西北向东南)",
+      "90": "N->S (自北向南)",
+      "135": "NE->SW (东北向西南)",
+      "180": "E->W (自东向西)",
+      "-45": "SW->NE (西南向东北)",
+      "-90": "S->N (自南向北)",
+      "-135": "SE->NW (东南向西北)"
+    },
+    "note": "角度是基于轨迹起点到终点的方向向量计算，atan2(dy, dx) * 180 / PI"
+  }
+}
