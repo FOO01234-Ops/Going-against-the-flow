@@ -1,49 +1,19 @@
 # 🚦 智能交通路口管理系统
 
-> **基于深度学习的车辆逆行检测与违规工单管理平台**
-
-[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
-[![YOLO](https://img.shields.io/badge/YOLO-11-green.svg)](https://github.com/ultralytics/ultralytics)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.85+-teal.svg)](https://fastapi.tiangolo.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+基于 **YOLO11 + DeepSORT + FastAPI** 的智慧交通解决方案。系统通过分析路口监控视频或图片，实时检测车辆逆行行为，自动生成违章工单，并提供可视化标注输出和 WebSocket 实时推送。
 
 ---
 
-## 📋 项目简介
+## ✨ 核心功能
 
-本项目是一套完整的**智能交通路口管理系统**，通过对监控视频流进行实时分析，自动检测车辆逆行行为、识别违规车辆车牌，并生成完整的违规工单。系统采用模块化设计，各组件可独立运行或集成部署，适用于城市交通管理、智慧交通建设等场景。
-
-### 核心能力
-
-| 功能 | 说明 |
-| :--- | :--- |
-| 🚗 **车辆检测** | YOLO11 实时检测视频中的车辆，输出边界框和车型分类 |
-| 🎯 **目标跟踪** | DeepSORT 跨帧追踪车辆，为每辆车分配唯一 ID |
-| 🚨 **逆行检测** | 基于轨迹方向与车道预设方向对比，智能判定逆行 |
-| 📋 **车牌识别** | PaddleOCR 识别逆行车辆车牌（支持真实/模拟模式） |
-| 📄 **工单管理** | 完整的违规工单生命周期管理（创建→审核→处理→归档） |
-| 🔌 **API 服务** | RESTful API 接口，支持第三方系统集成 |
-| 📊 **数据统计** | 多维度违规数据分析与报表导出 |
+- 🚗 **目标检测**：YOLO11 识别车辆（轿车、卡车、巴士等）
+- 🔍 **多目标跟踪**：DeepSORT 为每辆车分配唯一 ID 并绘制运动轨迹
+- ⚠️ **逆行判定**：多帧滑动窗口 + 圆形平均 + 一致性检查，抑制抖动误报
+- 🎫 **工单闭环**：自动生成违章工单，支持状态管理及 CSV/JSON 导出
+- 🖼️ **实时可视化**：API 返回带边界框和轨迹线的 Base64 图片
+- 📡 **实时推送**：Redis + WebSocket，工单实时推送至前端
 
 ---
-
-## 🛠️ 技术栈
-
-| 模块 | 技术选型 | 版本 | 说明 |
-| :--- | :--- | :--- | :--- |
-| **编程语言** | Python | 3.9+ | 主要开发语言 |
-| **深度学习框架** | PyTorch / PaddlePaddle | 最新 | 模型推理引擎 |
-| **目标检测** | YOLO11 (Ultralytics) | 8.0+ | 车辆检测与分类 |
-| **目标跟踪** | DeepSORT (ByteTrack) | - | 车辆跟踪与轨迹记录 |
-| **车牌识别** | PaddleOCR | 2.6+ | 文本检测 + 文本识别 |
-| **数据库** | SQLite | 内置 | 轻量级本地数据库 |
-| **API 框架** | FastAPI | 0.85+ | RESTful API + Swagger 文档 |
-| **图像处理** | OpenCV | 4.5+ | 视频帧处理与可视化 |
-| **配置管理** | JSON / YAML | - | 灵活配置车道规则 |
-
-git status
-
-## 📁 项目结构
 
 ## 📂 项目结构
 
@@ -84,7 +54,7 @@ going-against-the-flow/
 │
 └── 📄 文档
     └── README.md                 # 项目说明
-
+```
 
 ---
 
@@ -95,111 +65,89 @@ going-against-the-flow/
 | 项目 | 要求 |
 | :--- | :--- |
 | Python | 3.9 或更高版本 |
-| 内存 | 8GB+ (推荐 16GB) |
-| 存储 | 10GB+ (含数据集) |
-| CUDA | 11.8+ (可选，GPU加速) |
+| 内存 | 8GB+（推荐 16GB） |
+| 存储 | 16GB+（含数据集） |
+| CUDA | 11.8+（可选，GPU加速） |
 
-### 安装步骤
+### 本地运行
 
 ```bash
 # 1. 克隆项目
-git clone <repository-url>
-cd "Going against the flow"
+git clone https://github.com/FOO01234-Ops/Going-against-the-flow.git
+cd Going-against-the-flow
 
-# 2. 创建并激活虚拟环境 (Conda)
-conda create -n yolo26_env python=3.9
+# 2. 创建并激活虚拟环境（以 conda 为例）
+conda create -n yolo26_env python=3.10
 conda activate yolo26_env
 
 # 3. 安装依赖
 pip install -r requirements.txt
 
-# 4. 下载 YOLO11 模型 (自动下载)
-# 首次运行时会自动下载 yolo11n.pt
+# 4. 启动 Redis（可选，用于 WebSocket 推送）
+docker run -d --name redis -p 6379:6379 redis
 
-# 5. 准备数据集
-# 将 DETRAC 数据集放入 data/raw/DETRAC-train-data/
-
-📖 使用指南
-1. 运行工单模块测试
-
-python test_ticket.py
-
-2. 运行完整流水线（单张图片检测）
-
-python scripts/run_pipeline.py
-输出：output/pipeline_results/result_*.jpg
-
-3. 逆行检测可视化（批量处理序列）
-
-python scripts/run_violation_detection.py
-输出：output/violation_demo/
-
-4. 启动 API 服务
-
+# 5. 启动 API 服务
 python run_api.py
-访问：http://127.0.0.1:8000/docs
+```
 
-5. 测试集评估
+### Docker 一键部署
 
-python scripts/test_on_testset.py
-输出：output/evaluation/evaluation_results_*.json
+```bash
+docker-compose up --build
+```
 
-6. 生成合成车牌数据
+访问 `http://localhost:8000/docs` 查看 API 文档。
 
-python scripts/generate_plates.py --demo
-python scripts/generate_plates.py --count 500
+### 外网访问（公网演示）
 
-📊 测试结果
-工单模块测试
+```bash
+ngrok http 8000 --region=ap
+```
 
-============================================================
-🚦 工单模块完整测试开始
-============================================================
-✅ 工单管理器初始化成功
+生成公网链接后，访问 `https://xxxx.ngrok-free.dev/docs` 即可。
 
-🚗 测试工单创建
-✅ 工单创建成功!
-  📋 工单ID: T20260706000001
-  🚗 车牌号: 京A12345
-  🏷️  车型: car
-  📌 状态: pending
+---
 
-🚑 测试特殊车辆工单
-✅ 特殊车辆工单创建成功!
-  📋 工单ID: T20260706000002
-  🚗 车牌号: 京B99999
-  🏷️  车型: ambulance
-  🚨 特殊车辆: 救护车
-  📌 状态: dismissed (自动驳回)
+## 📖 API 接口概览
 
-🔍 测试工单查询
-📊 总工单数: 2
+| 模块 | 方法 | 端点 | 描述 |
+| :--- | :--- | :--- | :--- |
+| 检测 | POST | `/api/detect/frame` | 上传图片，返回检测结果与标注图 |
+| 检测 | POST | `/api/detect/upload` | 同 `/frame`，别名接口 |
+| 工单 | GET | `/api/tickets` | 获取所有违章工单列表 |
+| 工单 | GET | `/api/tickets/{id}` | 获取指定工单详情 |
+| 工单 | PUT | `/api/tickets/{id}/status` | 更新工单处理状态 |
+| 工单 | GET | `/api/tickets/export/json` | 导出工单为 JSON |
+| 工单 | GET | `/api/tickets/export/csv` | 导出工单为 CSV |
+| 系统 | GET | `/health` | 服务健康检查 |
+| 系统 | WS | `/ws/events` | WebSocket 实时工单推送 |
 
-✏️ 测试状态更新
-✅ 状态更新成功!
-   新状态: confirmed
+---
 
-📤 测试导出功能
-✅ JSON导出成功!
-✅ CSV导出成功!
+## 🧠 技术栈
 
-🎉 所有测试通过!
+| 领域 | 技术选型 |
+| :--- | :--- |
+| 目标检测 | Ultralytics YOLO11 |
+| 多目标跟踪 | DeepSORT (ByteTrack) |
+| 逆行判定 | 滑动窗口 + 圆形平均 + 一致性检查 |
+| 后端框架 | FastAPI + Uvicorn |
+| 数据库 | SQLite |
+| 事件总线 | Redis（可选） |
+| 部署 | Docker & Docker Compose |
+| 前端交互 | Swagger UI / HTML + JavaScript |
 
-逆行检测测试
+---
 
-📊 处理结果:
-   - 检测车辆: 12
-   - 跟踪目标: 8
-   - 🚨 逆行: 3
-   - 🚗 车牌识别: 3
-   - 📋 生成工单: 3
+## 📝 待优化方向
 
-🔮 未来改进方向
-方向	    说明
-模型优化	使用 YOLO11x 提升检测精度，适配更多场景
-车牌识别	使用 CCPD 数据集训练专用车牌识别模型
-实时流处理	支持 RTSP 摄像头实时流，实现 7×24 监控
-多路口管理	支持多个路口同时监控与管理
-Web 管理界面	开发前端可视化平台，提升用户体验
-告警推送	支持短信、邮件、Webhook 告警通知
-数据大屏	实时数据可视化大屏展示
+- [ ] 接入 RTSP 实时视频流
+- [ ] TensorRT GPU 加速
+- [ ] Kafka 分布式事件系统
+- [ ] 3D 数字孪生大屏前端
+
+---
+
+## 📄 许可证
+
+MIT License
